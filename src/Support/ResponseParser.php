@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Juksgraphic\BladeTranslator\Support;
 
+use JsonException;
 use Juksgraphic\BladeTranslator\Contracts\ResponseParserInterface;
 use Juksgraphic\BladeTranslator\Exceptions\InvalidAiResponseException;
-use JsonException;
 
 /**
  * Extracts a flat key => text map from raw AI output.
@@ -33,7 +33,7 @@ final class ResponseParser implements ResponseParserInterface
             throw InvalidAiResponseException::notJson($raw, $e->getMessage());
         }
 
-        if (!is_array($data) || ($data !== [] && array_is_list($data))) {
+        if (! is_array($data) || ($data !== [] && array_is_list($data))) {
             throw InvalidAiResponseException::notJson($raw, 'expected a JSON object');
         }
 
@@ -41,7 +41,7 @@ final class ResponseParser implements ResponseParserInterface
 
         foreach ($data as $key => $value) {
 
-            if (!is_string($value)) {
+            if (! is_string($value)) {
                 throw InvalidAiResponseException::notFlatStringMap($key);
             }
             // PHP turns numeric-looking keys ("1") into ints when decoding.
@@ -57,10 +57,10 @@ final class ResponseParser implements ResponseParserInterface
      */
     private function extractJsonObject(string $raw): string
     {
-        $text  = preg_replace('#<think>.*?</think>#si', '', $raw) ?? $raw;
-        $text  = trim($text);
+        $text = preg_replace('#<think>.*?</think>#si', '', $raw) ?? $raw;
+        $text = trim($text);
         $start = strpos($text, '{');
-        $end   = strrpos($text, '}');
+        $end = strrpos($text, '}');
 
         if ($start === false || $end === false || $end < $start) {
             throw InvalidAiResponseException::notJson($raw, 'no JSON object found');

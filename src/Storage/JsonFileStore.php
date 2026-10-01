@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Juksgraphic\BladeTranslator\Storage;
 
+use JsonException;
 use Juksgraphic\BladeTranslator\Contracts\StoreInterface;
 use Juksgraphic\BladeTranslator\Dto\TranslationSource;
 use Juksgraphic\BladeTranslator\Dto\TranslatorConfig;
 use Juksgraphic\BladeTranslator\Exceptions\TranslationFileException;
-use JsonException;
 
 /**
  * Stores translation maps as JSON files:
@@ -30,7 +30,8 @@ final class JsonFileStore implements StoreInterface
     public function __construct(
         private readonly TranslatorConfig $config,
         private readonly bool $sortKeys = false,
-    ) {}
+    ) {
+    }
 
     /**
      * Summary of locate
@@ -73,7 +74,7 @@ final class JsonFileStore implements StoreInterface
     {
         $path = $this->pathFor($slug, $locale);
 
-        if (!is_file($path)) {
+        if (! is_file($path)) {
             throw TranslationFileException::notFound($path);
         }
 
@@ -89,7 +90,7 @@ final class JsonFileStore implements StoreInterface
             throw TranslationFileException::invalidJson($path, $e);
         }
 
-        if (!is_array($data)) {
+        if (! is_array($data)) {
             throw TranslationFileException::invalidJson($path);
         }
 
@@ -97,7 +98,7 @@ final class JsonFileStore implements StoreInterface
 
         foreach ($data as $key => $value) {
 
-            if (!is_string($value)) {
+            if (! is_string($value)) {
                 throw TranslationFileException::invalidJson($path);
             }
 
@@ -128,12 +129,12 @@ final class JsonFileStore implements StoreInterface
     public function write(string $slug, string $locale, array $data): void
     {
         $path = $this->pathFor($slug, $locale);
-        $dir  = dirname($path);
+        $dir = dirname($path);
 
         if (
-            !is_dir($dir) &&
-            !mkdir($dir, 0755, true) &&
-            !is_dir($dir)
+            ! is_dir($dir) &&
+            ! mkdir($dir, 0755, true) &&
+            ! is_dir($dir)
         ) {
             throw TranslationFileException::cannotCreateDirectory($dir);
         }
@@ -199,7 +200,7 @@ final class JsonFileStore implements StoreInterface
      */
     private function assertSafe(string $slug, string $locale): void
     {
-        if (!TranslatorConfig::isValidLocale($locale)) {
+        if (! TranslatorConfig::isValidLocale($locale)) {
             throw TranslationFileException::unsafePath($locale);
         }
 
@@ -241,7 +242,7 @@ final class JsonFileStore implements StoreInterface
         // tempnam() creates files with 0600; translations should be readable by the web server.
         chmod($temporary, 0644);
 
-        if (!rename($temporary, $path)) {
+        if (! rename($temporary, $path)) {
             $this->discard($temporary);
 
             throw TranslationFileException::cannotWrite($path);

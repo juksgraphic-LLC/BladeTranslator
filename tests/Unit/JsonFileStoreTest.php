@@ -5,7 +5,7 @@ use Juksgraphic\BladeTranslator\Exceptions\TranslationFileException;
 use Juksgraphic\BladeTranslator\Storage\JsonFileStore;
 
 beforeEach(function () {
-    
+
     $this->tempDir = sys_get_temp_dir() . '/blade_translator_test_' . uniqid();
     mkdir($this->tempDir, 0777, true);
 
@@ -67,7 +67,7 @@ it('overwrites existing keys when overwrite parameter is true', function () {
 });
 
 it('prevents path traversal attempts in slugs', function (string $unsafeSlug) {
-    expect(fn() => $this->store->read($unsafeSlug, 'fr'))
+    expect(fn () => $this->store->read($unsafeSlug, 'fr'))
         ->toThrow(TranslationFileException::class);
 })->with([
     '../secret',

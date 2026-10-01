@@ -16,5 +16,6 @@ final readonly class TranslationSource
     public function __construct(
         public string $locale,
         public string $path,
-    ) {}
+    ) {
+    }
 }

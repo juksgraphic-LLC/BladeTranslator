@@ -7,12 +7,12 @@ namespace Juksgraphic\BladeTranslator\Providers;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
+use JsonException;
 use Juksgraphic\BladeTranslator\Contracts\AiProviderInterface;
 use Juksgraphic\BladeTranslator\Dto\AiResponse;
 use Juksgraphic\BladeTranslator\Dto\ProviderOptions;
 use Juksgraphic\BladeTranslator\Exceptions\InvalidConfigurationException;
 use Juksgraphic\BladeTranslator\Exceptions\ProviderException;
-use JsonException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -58,7 +58,7 @@ class OpenAiCompatibleProvider implements AiProviderInterface
         }
 
         $this->endpoint = rtrim($baseUrl, '/') . '/chat/completions';
-        $this->client   = $client ?? new Client();
+        $this->client = $client ?? new Client();
     }
 
     public function ask(string $system, string $user): AiResponse
@@ -66,12 +66,12 @@ class OpenAiCompatibleProvider implements AiProviderInterface
         $attempt = 0;
 
         while (true) {
-            
+
             try {
                 return $this->attempt($system, $user);
             } catch (ProviderException $e) {
 
-                if ($attempt >= $this->options->maxRetries || !$e->isRetryable()) {
+                if ($attempt >= $this->options->maxRetries || ! $e->isRetryable()) {
                     throw $e;
                 }
 
@@ -111,7 +111,7 @@ class OpenAiCompatibleProvider implements AiProviderInterface
     protected function payload(string $system, string $user): array
     {
         $payload = [
-            'model'    => $this->model,
+            'model' => $this->model,
             'messages' => [
                 ['role' => 'system', 'content' => $system],
                 ['role' => 'user',   'content' => $user],
@@ -140,7 +140,7 @@ class OpenAiCompatibleProvider implements AiProviderInterface
     {
         $headers = [
             'Content-Type' => 'application/json',
-            'Accept'       => 'application/json',
+            'Accept' => 'application/json',
         ];
 
         if ($this->apiKey !== '') {
@@ -159,18 +159,18 @@ class OpenAiCompatibleProvider implements AiProviderInterface
     {
         try {
             $response = $this->client->request('POST', $this->endpoint, [
-                'headers'     => $this->headers(),
-                'json'        => $this->payload($system, $user),
-                'timeout'     => $this->options->timeout,
+                'headers' => $this->headers(),
+                'json' => $this->payload($system, $user),
+                'timeout' => $this->options->timeout,
                 'http_errors' => false,
             ]);
-            
+
         } catch (GuzzleException $e) {
             throw ProviderException::requestFailed($e->getMessage(), $e);
         }
 
         $status = $response->getStatusCode();
-        $body   = (string) $response->getBody();
+        $body = (string) $response->getBody();
 
         if ($status === 429) {
             throw ProviderException::rateLimited($this->retryAfter($response));
@@ -194,15 +194,15 @@ class OpenAiCompatibleProvider implements AiProviderInterface
             throw ProviderException::malformedResponse($body);
         }
 
-        $choice  = is_array($data)   ? ($data['choices'][0] ?? null) : null;
+        $choice = is_array($data) ? ($data['choices'][0] ?? null) : null;
         $content = is_array($choice) ? ($choice['message']['content'] ?? null) : null;
 
-        if (!is_string($content)) {
+        if (! is_string($content)) {
             throw ProviderException::malformedResponse($body);
         }
 
         $finishReason = $choice['finish_reason'] ?? null;
-        $model        = $data['model'] ?? null;
+        $model = $data['model'] ?? null;
 
         return new AiResponse(
             content: $content,

@@ -11,7 +11,6 @@ use Throwable;
  */
 class TranslationFileException extends TranslatorException
 {
-
     /**
      * File not found
      * @param string $path

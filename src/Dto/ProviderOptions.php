@@ -24,14 +24,14 @@ final readonly class ProviderOptions
      * @throws InvalidConfigurationException
      */
     public function __construct(
-        public ?float $temperature        = 0.1,
-        public ?int   $maxTokens          = null,
-        public string $maxTokensField     = 'max_tokens',
+        public ?float $temperature = 0.1,
+        public ?int   $maxTokens = null,
+        public string $maxTokensField = 'max_tokens',
         public bool   $jsonResponseFormat = false,
-        public int    $timeout            = 180,
-        public int    $maxRetries         = 3,
-        public int    $retryBaseDelayMs   = 1000,
-        public array  $extraPayload       = [],
+        public int    $timeout = 180,
+        public int    $maxRetries = 3,
+        public int    $retryBaseDelayMs = 1000,
+        public array  $extraPayload = [],
     ) {
         if ($temperature !== null && ($temperature < 0.0 || $temperature > 2.0)) {
             throw InvalidConfigurationException::invalidValue('temperature', 'must be between 0 and 2');

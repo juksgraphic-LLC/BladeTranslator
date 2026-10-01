@@ -20,11 +20,12 @@ final readonly class AiResponse
      */
     public function __construct(
         public string $content,
-        public ?string $finishReason  = null,
-        public ?int $promptTokens     = null,
+        public ?string $finishReason = null,
+        public ?int $promptTokens = null,
         public ?int $completionTokens = null,
-        public ?string $model         = null,
-    ) {}
+        public ?string $model = null,
+    ) {
+    }
 
     /**
      * Whether the output was cut because the token limit was reached.

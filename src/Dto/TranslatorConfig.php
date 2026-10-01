@@ -64,12 +64,12 @@ final readonly class TranslatorConfig
      */
     public function __construct(
         string $translationsPath,
-        string $sourceLocale  = 'en',
-        array $targetLocales  = ['fr', 'es', 'ht'],
-        array $localeLabels   = [],
+        string $sourceLocale = 'en',
+        array $targetLocales = ['fr', 'es', 'ht'],
+        array $localeLabels = [],
         array $doNotTranslate = [],
-        int $batchSize        = 40,
-        ?string $viewsPath    = null,
+        int $batchSize = 40,
+        ?string $viewsPath = null,
         PlaceholderStyle $placeholderStyle = PlaceholderStyle::Colon,
     ) {
         $translationsPath = rtrim(trim($translationsPath), '/\\');
@@ -89,7 +89,7 @@ final readonly class TranslatorConfig
         }
 
         $targets = array_values(array_unique(
-            array_filter($targetLocales, static fn(string $l): bool => $l !== $sourceLocale)
+            array_filter($targetLocales, static fn (string $l): bool => $l !== $sourceLocale)
         ));
 
         if ($targets === []) {
@@ -101,15 +101,15 @@ final readonly class TranslatorConfig
         }
 
         $this->translationsPath = $translationsPath;
-        $this->viewsPath        = $viewsPath === null ? null : rtrim($viewsPath, '/\\');
-        $this->sourceLocale     = $sourceLocale;
-        $this->targetLocales    = $targets;
-        $this->localeLabels     = array_merge(self::DEFAULT_LOCALE_LABELS, $localeLabels);
-        $this->doNotTranslate   = array_values(array_unique(array_filter(
+        $this->viewsPath = $viewsPath === null ? null : rtrim($viewsPath, '/\\');
+        $this->sourceLocale = $sourceLocale;
+        $this->targetLocales = $targets;
+        $this->localeLabels = array_merge(self::DEFAULT_LOCALE_LABELS, $localeLabels);
+        $this->doNotTranslate = array_values(array_unique(array_filter(
             array_map('trim', $doNotTranslate),
-            static fn(string $term): bool => $term !== ''
+            static fn (string $term): bool => $term !== ''
         )));
-        $this->batchSize        = $batchSize;
+        $this->batchSize = $batchSize;
         $this->placeholderStyle = $placeholderStyle;
     }
 
