@@ -18,7 +18,8 @@ final class SlugResolver implements SlugResolverInterface
 {
     public function __construct(
         private readonly TranslatorConfig $config,
-    ) {}
+    ) {
+    }
 
     public function resolve(string $path): string
     {

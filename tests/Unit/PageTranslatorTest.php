@@ -7,7 +7,7 @@ use Juksgraphic\BladeTranslator\Providers\FakeProvider;
 use Juksgraphic\BladeTranslator\Storage\JsonFileStore;
 
 beforeEach(function () {
-    
+
     $this->tempDir = sys_get_temp_dir() . '/blade_translator_test_' . uniqid();
     mkdir($this->tempDir, 0777, true);
 
@@ -15,7 +15,7 @@ beforeEach(function () {
         sourceLocale: 'fr',
         targetLocales: ['en'],
         translationsPath: $this->tempDir,
-        viewsPath: $this->tempDir, 
+        viewsPath: $this->tempDir,
         batchSize: 10,
     );
 

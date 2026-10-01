@@ -59,9 +59,9 @@ final class PageTranslator
         ?SlugResolverInterface $slugs = null,
         ?TranslationValidator $validator = null,
     ) {
-        $this->prompts   = $prompts ?? new PromptBuilder($config);
-        $this->parser    = $parser ?? new ResponseParser();
-        $this->slugs     = $slugs ?? new SlugResolver($config);
+        $this->prompts = $prompts ?? new PromptBuilder($config);
+        $this->parser = $parser ?? new ResponseParser();
+        $this->slugs = $slugs ?? new SlugResolver($config);
         $this->validator = $validator ?? new TranslationValidator();
     }
 
@@ -98,8 +98,8 @@ final class PageTranslator
      */
     public function generate(string $bladePath): array
     {
-        $slug    = $this->slugs->resolve($bladePath);
-        $source  = $this->config->sourceLocale;
+        $slug = $this->slugs->resolve($bladePath);
+        $source = $this->config->sourceLocale;
         $content = $this->compact($this->readBlade($bladePath));
         $current = $this->store->readIfExists($slug, $source);
 
@@ -133,14 +133,14 @@ final class PageTranslator
         $targets = array_values(array_unique($locales === null ? $this->config->targetLocales : (array) $locales));
 
         foreach ($targets as $target) {
-            if (!TranslatorConfig::isValidLocale($target)) {
+            if (! TranslatorConfig::isValidLocale($target)) {
                 throw InvalidConfigurationException::invalidLocale($target);
             }
         }
 
-        $source     = $this->store->locate($slug);
+        $source = $this->store->locate($slug);
         $sourceData = $this->store->read($slug, $source->locale);
-        $results    = [];
+        $results = [];
 
         foreach ($targets as $target) {
             $results[$target] = $target === $source->locale
@@ -162,7 +162,7 @@ final class PageTranslator
 
         foreach (array_chunk($missing, $this->config->batchSize, true) as $batch) {
             $translated = $this->translateBatch($batch, $target);
-            $current    = $this->store->merge($slug, $target, $translated);
+            $current = $this->store->merge($slug, $target, $translated);
         }
 
         return $current;
@@ -182,7 +182,7 @@ final class PageTranslator
             return $this->requestMap(
                 $this->prompts->systemForLocalization($target),
                 $this->prompts->userForLocalization($batch, $target),
-                fn(array $translated) => $this->validator->validate($batch, $translated),
+                fn (array $translated) => $this->validator->validate($batch, $translated),
             );
         } catch (ResponseTruncatedException $e) {
             if (count($batch) <= 1) {
@@ -236,7 +236,7 @@ final class PageTranslator
                 return $map;
 
             } catch (InvalidAiResponseException $e) {
-                
+
                 if ($attempt >= self::MAX_CORRECTIONS) {
                     throw $e;
                 }
@@ -253,7 +253,7 @@ final class PageTranslator
      */
     private function readBlade(string $path): string
     {
-        if (!is_file($path)) {
+        if (! is_file($path)) {
             throw TranslationFileException::notFound($path);
         }
 

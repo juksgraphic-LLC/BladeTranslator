@@ -18,7 +18,7 @@ class InvalidConfigurationException extends TranslatorException
     {
         return new self("Invalid locale code '{$locale}'. Expected something like 'en', 'fr' or 'pt-BR'.");
     }
-   
+
     /**
      * No targets locale
      * @return InvalidConfigurationException

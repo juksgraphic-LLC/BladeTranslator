@@ -35,7 +35,8 @@ final class TranslationLoader
         private string $locale,
         private readonly array $fallbackLocales = ['en'],
         private readonly ?Closure $onError = null,
-    ) {}
+    ) {
+    }
 
     /**
      * Change the active locale (e.g. per request).

@@ -39,7 +39,7 @@ final class PlaceholderValidator
     public function assertSame(string $key, string $source, string $translated): void
     {
         $expected = $this->extract($source);
-        $actual   = $this->extract($translated);
+        $actual = $this->extract($translated);
 
         if ($expected !== $actual) {
             throw InvalidAiResponseException::placeholdersMismatch($key, $expected, $actual);

@@ -10,4 +10,6 @@ use RuntimeException;
  * Base exception for the package.
  * Catch this type to handle any error raised by BladeTranslator.
  */
-class TranslatorException extends RuntimeException {}
+class TranslatorException extends RuntimeException
+{
+}

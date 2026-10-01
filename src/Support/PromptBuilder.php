@@ -14,7 +14,8 @@ final class PromptBuilder implements PromptBuilderInterface
 {
     public function __construct(
         private readonly TranslatorConfig $config,
-    ) {}
+    ) {
+    }
 
     public function systemForExtraction(): string
     {
