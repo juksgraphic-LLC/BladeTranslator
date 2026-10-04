@@ -34,7 +34,12 @@ testbench.yaml
 
 #/ Php docs
 .phpdoc/cache
+.phpdoc.dist.xml
 
 #/ Deptrac
 .deptrac.cache
+deptrac.php
 
+
+#/ Lang
+lang
