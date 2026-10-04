@@ -31,3 +31,10 @@ psalm.xml
 testbench.yaml
 /docs
 /coverage
+
+#/ Php docs
+.phpdoc/cache
+
+#/ Deptrac
+.deptrac.cache
+

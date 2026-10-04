@@ -20,7 +20,3 @@ $provider = new CerebrasProvider(
 );
 
 $translator = PageTranslator::make($provider, $config);
-
-$page = $translator->generate(__DIR__ . '/views/test.blade.php');
-
-dd($page);

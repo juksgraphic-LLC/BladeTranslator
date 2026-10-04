@@ -23,8 +23,10 @@
         "guzzlehttp/guzzle": "^7.8"
     },
     "require-dev": {
-        "pestphp/pest": "^4.0",
+        "deptrac/deptrac": "^4.7",
         "friendsofphp/php-cs-fixer": "^3.21.1",
+        "pestphp/pest": "^4.0",
+        "phpdocumentor/shim": "^3.10",
         "spatie/ray": "^1.28"
     },
     "autoload": {
@@ -38,14 +40,22 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/pest --no-coverage",
+        "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
-        "format": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=yes"
+        "format": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=yes",
+        "docs:generate": "vendor/bin/phpdoc",
+        "docs:clean": "rm -rf docs/api .phpdoc",
+        "docs:rebuild": [
+            "@docs:clean",
+            "@docs:generate"
+        ],
+        "docs:serve": "php -S localhost:8000 -t docs/apiY"
     },
     "config": {
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
+            "phpdocumentor/shim": true,
             "phpstan/extension-installer": true
         }
     },
