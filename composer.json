@@ -20,7 +20,7 @@
     ],
     "require": {
         "php": "^8.4",
-        "guzzlehttp/guzzle": "^7.8"
+        "guzzlehttp/guzzle": "^8.2"
     },
     "require-dev": {
         "deptrac/deptrac": "^4.7",
