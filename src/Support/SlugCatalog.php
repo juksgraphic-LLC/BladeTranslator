@@ -23,9 +23,9 @@ final class SlugCatalog
 
     /** Slug prefix => display group name. */
     private const array DEFAULT_GROUPS = [
-        'emails/'          => 'Emails',
+        'emails/' => 'Emails',
         'global/partials/' => 'Shared components',
-        'global/pages/'    => 'Pages',
+        'global/pages/' => 'Pages',
     ];
 
     /**
@@ -135,18 +135,19 @@ final class SlugCatalog
             foreach ($this->config->allLocales() as $locale) {
                 if (! $this->store->exists($slug, $locale)) {
                     $overview[$slug][$locale] = [
-                        'exists'  => false,
-                        'keys'    => 0,
+                        'exists' => false,
+                        'keys' => 0,
                         'missing' => count($sourceKeys),
                     ];
+
                     continue;
                 }
 
                 $keys = array_keys($this->store->read($slug, $locale));
 
                 $overview[$slug][$locale] = [
-                    'exists'  => true,
-                    'keys'    => count($keys),
+                    'exists' => true,
+                    'keys' => count($keys),
                     'missing' => count(array_diff($sourceKeys, $keys)),
                 ];
             }
@@ -220,11 +221,11 @@ final class SlugCatalog
 
         $segments = array_filter(
             explode('/', $slug),
-            static fn(string $s): bool => ! in_array($s, $hidden, true),
+            static fn (string $s): bool => ! in_array($s, $hidden, true),
         );
 
         $readable = array_map(
-            static fn(string $s): string => ucfirst(str_replace(['-', '_'], ' ', $s)),
+            static fn (string $s): string => ucfirst(str_replace(['-', '_'], ' ', $s)),
             $segments,
         );
 
@@ -254,8 +255,8 @@ final class SlugCatalog
     public function labeled(): array
     {
         return array_map(
-            fn(string $slug): array => [
-                'slug'  => $slug,
+            fn (string $slug): array => [
+                'slug' => $slug,
                 'label' => $this->label($slug),
                 'group' => $this->group($slug),
             ],

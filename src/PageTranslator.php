@@ -59,9 +59,9 @@ final class PageTranslator
         ?SlugResolverInterface    $slugs = null,
         ?TranslationValidator $validator = null,
     ) {
-        $this->prompts   = $prompts   ?? new PromptBuilder($config);
-        $this->parser    = $parser    ?? new ResponseParser();
-        $this->slugs     = $slugs     ?? new SlugResolver($config);
+        $this->prompts = $prompts ?? new PromptBuilder($config);
+        $this->parser = $parser ?? new ResponseParser();
+        $this->slugs = $slugs ?? new SlugResolver($config);
         $this->validator = $validator ?? new TranslationValidator();
     }
 

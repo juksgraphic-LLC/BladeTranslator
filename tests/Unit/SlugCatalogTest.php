@@ -183,8 +183,8 @@ it('ignores unknown keys and non-string values on save', function () {
     $this->store->write('home', 'fr', ['title' => 'Titre', 'intro' => 'Intro']);
 
     $result = $this->catalog->save('home', 'en', [
-        'title'   => 'Title',
-        'intro'   => ['not', 'a', 'string'],
+        'title' => 'Title',
+        'intro' => ['not', 'a', 'string'],
         'unknown' => 'Should be dropped',
     ]);
 
