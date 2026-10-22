@@ -56,12 +56,12 @@ final class PageTranslator
         private readonly TranslatorConfig $config,
         ?PromptBuilderInterface $prompts = null,
         ?ResponseParserInterface $parser = null,
-        ?SlugResolverInterface $slugs = null,
+        ?SlugResolverInterface    $slugs = null,
         ?TranslationValidator $validator = null,
     ) {
-        $this->prompts = $prompts ?? new PromptBuilder($config);
-        $this->parser = $parser ?? new ResponseParser();
-        $this->slugs = $slugs ?? new SlugResolver($config);
+        $this->prompts   = $prompts   ?? new PromptBuilder($config);
+        $this->parser    = $parser    ?? new ResponseParser();
+        $this->slugs     = $slugs     ?? new SlugResolver($config);
         $this->validator = $validator ?? new TranslationValidator();
     }
 
